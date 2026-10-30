@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Letter For You ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8e8e5, #f3d5d2, #f9eee5);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    color: #713f46;
+}
+
+/* BACKGROUND */
+.background-hearts {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    bottom: -40px;
+    color: rgba(183, 92, 112, 0.4);
+    animation: floatHeart linear infinite;
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    15% { opacity: 1; }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* MAIN */
+.container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 18px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #a66b73;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(38px, 8vw, 65px);
+    color: #914f5d;
+    margin-bottom: 10px;
+}
+
+.intro {
+    font-size: 13px;
+    color: #94666b;
+    margin-bottom: 40px;
+}
+
+/* ENVELOPE */
+.envelope-wrapper {
+    position: relative;
+    width: min(320px, 85vw);
+    height: 205px;
+    margin: 15px auto 25px;
+    cursor: pointer;
+    perspective: 1000px;
+    transition: transform 0.4s ease;
+}
+
+.envelope-wrapper:hover {
+    transform: translateY(-8px);
+}
+
+.envelope {
+    position: absolute;
+    inset: 0;
+    background: #d99ba1;
+    border-radius: 5px;
+    box-shadow: 0 15px 35px rgba(111, 54, 66, 0.2);
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-left: 160px solid #e8b3b2;
+    border-right: 160px solid #e8b3b2;
+    border-top: 115px solid transparent;
+    z-index: 3;
+}
+
+.envelope::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-top: 120px solid #c9828d;
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    z-index: 5;
+}
+
+.flap {
+    position: absolute;
+    inset: 0;
+    background: #c9828d;
+    clip-path: polygon(0 0, 100% 0, 50% 58%);
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    z-index: 6;
+}
+
+.seal {
+    position: absolute;
+    z-index: 7;
+    top: 88px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 34px;
+    transition: 0.5s;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,.15));
+}
+
+.envelope-label {
+    position: absolute;
+    z-index: 8;
+    bottom: 17px;
+    left: 0;
+    width: 100%;
+    font-family: 'Dancing Script', cursive;
+    font-size: 20px;
+    color: #814d54;
+}
+
+.letter-preview {
+    position: absolute;
+    left: 5%;
+    top: 8px;
+    width: 90%;
+    height: 175px;
+    background: #fffaf0;
+    border-radius: 5px;
+    z-index: 2;
+    transition: transform 1s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.letter-preview::before {
+    content: "For Someone Special";
+    font-family: 'Dancing Script', cursive;
+    font-size: 19px;
+    color: #a75d68;
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+}
+
+/* OPEN ENVELOPE */
+.envelope-wrapper.open .flap,
+.envelope-wrapper.open .envelope::after {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope-wrapper.open .seal {
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+}
+
+.envelope-wrapper.open .letter-preview {
+    transform: translateY(-125px);
+    transition-delay: 0.45s;
+}
+
+.envelope-wrapper.open {
+    cursor: default;
+}
+
+/* BUTTON */
+.open-button {
+    border: none;
+    padding: 13px 30px;
+    background: #a75e6b;
+    color: white;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 7px 18px rgba(125, 61, 76, .2);
+    transition: .3s;
+}
+
+.open-button:hover {
+    background: #874653;
+    transform: scale(1.06);
+}
+
+.hint {
+    margin-top: 17px;
+    font-size: 11px;
+    color: #a16e75;
+}
+
+/* LETTER CONTENT */
+.letter-section {
+    display: none;
+    width: 100%;
+    max-width: 750px;
+    margin: 45px auto 20px;
+    animation: appear 1s ease forwards;
+}
+
+.letter-section.show {
+    display: block;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.paper {
+    background:
+        linear-gradient(rgba(255,250,240,.96), rgba(255,250,240,.96)),
+        repeating-linear-gradient(transparent, transparent 31px, #e8d6c9 32px);
+    padding: clamp(25px, 6vw, 55px);
+    border: 1px solid #ead4c6;
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(111, 54, 66, .13);
+    text-align: left;
+}
+
+.paper-top {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.paper-top .small {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #b17b7f;
+}
+
+.paper-top h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 38px;
+    color: #985664;
+    margin-top: 10px;
+}
+
+.paper-top .decoration {
+    color: #c77e89;
+    font-size: 22px;
+    margin-top: 8px;
+}
+
+.letter-text {
+    font-family: 'Playfair Display', serif;
+    color: #65484a;
+    font-size: 15px;
+    line-height: 2;
+}
+
+.letter-text p {
+    margin-bottom: 19px;
+}
+
+.letter-text strong {
+    color: #a24f61;
+    font-style: italic;
+}
+
+.signature {
+    text-align: right;
+    margin-top: 40px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 29px;
+    color: #a05262;
+}
+
+.signature span {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.footer {
+    margin-top: 30px;
+    color: #a36e75;
+    font-family: 'Dancing Script', cursive;
+    font-size: 25px;
+}
+
+.back-button {
+    display: none;
+    margin: 25px auto;
+    padding: 11px 25px;
+    background: transparent;
+    border: 1px solid #ad737b;
+    color: #8b535d;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.back-button.show {
+    display: block;
+}
+
+@media(max-width: 480px) {
+    .envelope-wrapper {
+        width: 280px;
+        height: 180px;
+    }
+
+    .envelope::before {
+        border-left-width: 140px;
+        border-right-width: 140px;
+        border-top-width: 100px;
+    }
+
+    .envelope::after {
+        border-left-width: 140px;
+        border-right-width: 140px;
+        border-top-width: 105px;
+    }
+
+    .seal { top: 75px; }
+    .letter-text { font-size: 14px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background-hearts" id="hearts"></div>
+
+<main class="container">
+
+    <div id="welcome">
+        <p class="subtitle">A little something from my heart</p>
+        <h1>To Someone Special</h1>
+        <p class="intro">
+            Ada sesuatu yang ingin aku sampaikan kepadamu...
+        </p>
+
+        <div class="envelope-wrapper" id="envelope"
+             onclick="openEnvelope()">
+
+            <div class="letter-preview"></div>
+
+            <div class="envelope"></div>
+            <div class="flap"></div>
+
+            <div class="seal">❤️</div>
+
+            <div class="envelope-label">
+                A letter for you
+            </div>
+        </div>
+
+        <button class="open-button" onclick="openEnvelope()">
+            Open My Letter ♡
+        </button>
+
+        <p class="hint">♡ Just For Youu Sayanggg ♡</p>
+    </div>
+
+    <section class="letter-section" id="letter">
+        <div class="paper">
+
+            <div class="paper-top">
+                <p class="small">A LETTER FROM MY HEART TO YOU SAYANGGGKUU</p>
+                <h2>Dear You, Ilham Sayangggg</h2>
+                <div class="decoration">♡ ✧ ♡</div>
+            </div>
+
+            <div class="letter-text">
+
+                <p>
+                Aku mau bilang sesuatu yang mungkin selama ini belum sepenuhnya bisa aku ungkapkan ke kamu.
+                </p>
+
+                <p>
+                Terima kasih, ya, sudah hadir dalam hidupku. Terima kasih karena mau mengusahakan aku, mau memahami aku, mau mendengarkan perasaanku, dan nggak gengsi untuk meminta maaf ketika ada sesuatu yang membuatku marah atau kecewa. Mungkin buat kamu hal-hal itu sederhana, tapi buat aku, semuanya punya arti yang begitu besar.
+                </p>
+
+                <p>
+                Ada satu hal yang perlu kamu tahu. Sebelum aku bertemu kamu, aku pernah berada di fase ketika aku merasa gagal dalam urusan perasaan. Aku pernah begitu tulus menyayangi seseorang, mencoba memahami, bertahan, menunggu, bahkan berusaha mengikhlaskan seseorang yang ternyata tidak memilih untuk tinggal.
+                </p>
+
+                <p>
+                Aku pernah merasakan bagaimana rasanya tiba-tiba kehilangan seseorang tanpa benar-benar mengerti apa yang salah. Pernah diblokir, kemudian diberi harapan lagi, lalu kembali merasakan jarak yang sama. Pernah menunggu kabar, berharap ada pesan yang masuk, dan berkali-kali bertanya kepada diri sendiri apakah aku memang tidak cukup baik untuk dipertahankan.
+                </p>
+
+                <p>
+                Sampai pada akhirnya aku lelah. Aku pernah merasa mungkin cinta memang bukan sesuatu yang bisa aku dapatkan. Aku pernah berpikir bahwa mungkin aku terlalu banyak berharap, terlalu mudah menyayangi, dan terlalu sering menempatkan perasaan orang lain di atas perasaanku sendiri.
+                </p>
+
+                <p>
+                Aku bahkan pernah merasa tidak ingin lagi berharap terlalu jauh kepada seseorang. Bukan karena aku tidak ingin dicintai, tetapi karena aku takut kembali merasakan sakit yang sama. Aku takut mengulang cerita yang membuatku harus mengumpulkan diriku sendiri dari awal.
+                </p>
+
+                <p>
+                Namun, kemudian kamu datang.
+                </p>
+
+                <p>
+                Aku nggak mau mengatakan bahwa kamu harus bertanggung jawab atas luka masa laluku, karena aku tahu itu adalah bagian dari perjalanan yang harus aku pelajari dan sembuhkan sendiri. Aku juga nggak ingin kamu merasa harus selalu sempurna hanya karena aku pernah mengalami hal-hal yang menyakitkan.
+                </p>
+
+                <p>
+                Tapi aku ingin kamu tahu bahwa caramu mengusahakan aku membuatku kembali percaya bahwa cinta tidak selalu harus terasa melelahkan. Bahwa ternyata ada seseorang yang mau membicarakan masalah, meminta maaf, memahami perasaan, dan tetap berusaha memperbaiki keadaan.
+                </p>
+
+                <p>
+                Terima kasih karena membuatku merasa bahwa perasaanku juga penting. Terima kasih karena aku tidak harus selalu menjadi orang yang memulai percakapan, mencari perhatian, atau bertanya-tanya apakah keberadaanku masih diinginkan.
+                </p>
+
+                <p>
+                Aku mungkin masih punya kekurangan. Mungkin ada kalanya aku terlalu banyak berpikir, mudah khawatir, atau belum pandai menyampaikan apa yang sebenarnya aku rasakan. Tapi percayalah, aku juga ingin belajar menjadi tempat yang nyaman untukmu. Aku ingin belajar memahami kamu sebagaimana kamu berusaha memahami aku.
+                </p>
+
+                <p>
+                Aku nggak ingin hubungan ini menjadi tentang siapa yang paling banyak mengalah atau siapa yang paling takut kehilangan. Aku ingin kita sama-sama belajar, sama-sama menjaga, dan sama-sama mengusahakan.
+                </p>
+
+                <p>
+                Kalau dulu aku pernah merasa gagal dalam menemukan cinta, kali ini aku ingin belajar untuk tidak membawa ketakutan masa lalu ke dalam sesuatu yang sedang kita bangun sekarang.
+                </p>
+
+                <p>
+                Aku nggak tahu sejauh apa perjalanan kita nanti, tapi aku berharap kita bisa menjalaninya dengan kesungguhan. Semoga ketika ada masalah, kita memilih untuk berbicara, bukan saling menghilang. Ketika ada kesalahpahaman, kita memilih untuk memahami, bukan saling menjauh.
+                </p>
+
+                <p>
+                Dan kalau suatu hari nanti kamu merasa lelah, semoga kamu juga ingat bahwa kamu nggak harus selalu menjadi orang yang kuat dan selalu mengerti. Aku juga ingin menjadi seseorang yang bisa kamu andalkan.
+                </p>
+
+                <p>
+                Sekali lagi, terima kasih sudah datang dan mau mengusahakan aku. Aku menghargai kehadiranmu lebih dari yang mungkin bisa aku jelaskan lewat kata-kata.
+                </p>
+
+                <p>
+                <strong>
+                Mungkin kamu nggak tahu, tetapi ada bagian dari diriku yang dahulu hampir berhenti percaya pada cinta, dan sekarang sedang belajar percaya kembali.
+                </strong>
+                </p>
+
+            </div>
+
+            <div class="signature">
+                <span>With all my heart,</span>
+                ❤️
+            </div>
+
+        </div>
+
+        <div class="footer">
+            I'm grateful that our paths crossed. ❤️
+        </div>
+
+        <button class="back-button" id="backButton"
+                onclick="backToStart()">
+            ↶ Back to the envelope
+        </button>
+    </section>
+
+</main>
+
+<script>
+
+/* OPEN LETTER */
+function openEnvelope() {
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+    const welcome = document.getElementById('welcome');
+    const backButton = document.getElementById('backButton');
+
+    if (envelope.classList.contains('open')) return;
+
+    envelope.classList.add('open');
+
+    setTimeout(() => {
+        welcome.style.display = 'none';
+        letter.classList.add('show');
+        backButton.classList.add('show');
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, 1600);
+}
+
+/* BACK TO ENVELOPE */
+function backToStart() {
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+    const welcome = document.getElementById('welcome');
+    const backButton = document.getElementById('backButton');
+
+    letter.classList.remove('show');
+    backButton.classList.remove('show');
+    welcome.style.display = 'block';
+
+    setTimeout(() => {
+        envelope.classList.remove('open');
+    }, 100);
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+/* FLOATING HEARTS */
+const heartContainer = document.getElementById('hearts');
+
+function createHeart() {
+    const heart = document.createElement('span');
+    heart.className = 'heart';
+    heart.innerHTML = Math.random() > 0.5 ? '♥' : '♡';
+
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (12 + Math.random() * 22) + 'px';
+    heart.style.animationDuration = (5 + Math.random() * 7) + 's';
+
+    heartContainer.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 12000);
+}
+
+setInterval(createHeart, 450);
+
+</script>
+
+</body>
+</html>
